@@ -3,20 +3,23 @@ package com.email.writer.app;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Map;
 
 @Service
 public class EmailGeneratorService {
 
-    private  final WebClient webClient;
-    @Value("${gemini.Api.Url}")
+    private final WebClient webClient;
+    @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
-    @Value("${gemini.Api.Key}")
-    private String GeminiApiKey;
+    @Value("${gemini.api.key}")
+    private String geminiApiKey;
 
     public EmailGeneratorService(WebClient.Builder webClient) {
         this.webClient = webClient.build();
@@ -38,16 +41,25 @@ public class EmailGeneratorService {
                 });
         // do request ans get response
 
-        String response = webClient.post()
-                .uri(geminiApiUrl+ GeminiApiKey)
-                .header("Content-Type","application/json")
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+        try {
+            String response = webClient.post()
+                    .uri(geminiApiUrl)
+                    .header("x-goog-api-key", geminiApiKey)
+                    .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
 
-        // return response
-        return extractResponseContent(response);
+            // return response
+            return extractResponseContent(response);
+        } catch (WebClientResponseException e) {
+            // Handle API errors (e.g., 4xx, 5xx)
+            throw new AIApiException("Error from AI service: " + e.getResponseBodyAsString(), e);
+        } catch (WebClientRequestException e) {
+            // Handle network/connectivity errors
+            throw new AIApiException("Failed to connect to AI service.", e);
+        }
     }
 
     private String extractResponseContent(String response) {
@@ -63,7 +75,7 @@ public class EmailGeneratorService {
                     .asText();
 
         }catch(Exception e){
-            return "error in processing a request :" + e.getMessage();
+            throw new AIApiException("Failed to parse AI response: " + e.getMessage(), e);
         }
     }
 

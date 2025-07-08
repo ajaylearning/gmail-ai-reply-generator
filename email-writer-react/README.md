@@ -1,12 +1,50 @@
-# React + Vite
+# Email Writer - React Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This directory contains the React frontend for the AI Email Reply Generator. It's a single-page application built with [Vite](https://vitejs.dev/) and [Material-UI](https://mui.com/).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+-   Provides a UI to input email content and select a tone.
+-   Communicates with the backend service to generate email replies.
+-   Displays the generated response with a "Copy to Clipboard" feature.
+-   Designed to be embedded within the Chrome Extension or run as a standalone web application.
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To run the frontend in a local development environment, follow these steps.
+
+### Prerequisites
+
+-   [Node.js](https://nodejs.org/) (version 20.x or later)
+-   The [backend service](https://github.com/your-username/your-repo-name/tree/main/email-writer-sb) must be running separately.
+
+### Setup
+
+1.  **Navigate to the frontend directory:**
+    ```sh
+    cd gmail-ai-reply-generator/email-writer-react
+    ```
+
+2.  **Install dependencies:**
+    ```sh
+    npm install
+    ```
+
+3.  **Configure environment variables:**
+    Create a `.env.development.local` file by copying `.env.example`. Set the `VITE_API_BASE_URL` to point to your running backend (e.g., `http://localhost:8080`).
+    ```
+    VITE_API_BASE_URL=http://localhost:8080
+    ```
+
+4.  **Run the development server:**
+    ```sh
+    npm run dev
+    ```
+    The application will be available at `http://localhost:5173`.
+
+## Available Scripts
+
+-   `npm run dev`: Starts the development server with Hot Module Replacement (HMR).
+-   `npm run build`: Bundles the application for production into the `dist` directory.
+-   `npm run lint`: Lints the source code using ESLint.
+-   `npm run preview`: Serves the production build locally to preview it.
