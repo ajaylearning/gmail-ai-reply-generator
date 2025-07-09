@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("https://gmail-ai-reply-generator-frontend.vercel.app")
+                    .allowedOrigins("https://gmail-ai-reply-generator-frontend-7lakq5igu.vercel.app,https://mail.google.com")
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
                     .allowCredentials(true);
