@@ -1,0 +1,34 @@
+# Node.js
+/node_modules
+/dist
+/dist-ssr
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.env.local
+.env.*.local
+
+# Java / Maven
+/target/
+*.jar
+*.war
+*.ear
+
+# Chrome Extension build output
+/gmail-ai-reply-generator/email-writer-ext/dist/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+!/.vscode/extensions.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db 
